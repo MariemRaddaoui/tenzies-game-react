@@ -31,7 +31,7 @@ main {
     display: grid;
     grid-template: auto auto / repeat(5, 1fr);
     gap: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
 }
 
 .die-face {
@@ -60,4 +60,8 @@ main {
     font-size: 1.2rem;
     font-family: 'Karla', sans-serif;
     cursor: pointer;
+}
+
+h4 {
+    margin: 5px;
 }

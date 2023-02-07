@@ -6,6 +6,8 @@ import Confetti from "react-confetti"
 function App() {
   const[dice, setDice] = React.useState(allNewDice())
   const[tenzies, setTenzies]= React.useState(false)
+  const[rollsNumber,setRollsNumber] = React.useState(0)
+  const[bestScore,setBestScore] = React.useState(parseInt(localStorage.getItem("bestScore") || 0))
 
   React.useEffect(()=>{
     const allHeld = dice.every(die => die.isHeld)
@@ -15,6 +17,10 @@ function App() {
       setTenzies(true)
     }
   }, [dice])
+
+  React.useEffect(() => {
+    localStorage.setItem("bestScore", bestScore.toString());
+  }, [bestScore]);
   
   function allNewDice(){
     const newArray = []
@@ -35,6 +41,7 @@ function App() {
         ...die,
         value: Math.floor(Math.random() * 6) + 1
       }))
+      setRollsNumber(oldValue => oldValue + 1)
   }
 
   function holdDice(id){
@@ -44,8 +51,14 @@ function App() {
   }
 
   function newGame(){
+    if(bestScore===0){
+      setBestScore(rollsNumber)
+    }else if(rollsNumber < bestScore){
+      setBestScore(rollsNumber)
+    }
     setDice(allNewDice())
     setTenzies(false)
+    setRollsNumber(0)
   }
   const elements = dice.map(die => <Die key={die.id} die={die} holdDice={()=>holdDice(die.id)}/> )
 
@@ -57,6 +70,8 @@ function App() {
       <div className="dice-container">
           {elements}
       </div>
+      <h4>Number of rolls: {rollsNumber}</h4>
+      {bestScore!==0 && <h4>Best Score: {bestScore}</h4>}
       <button className="roll-dice" onClick={tenzies ? newGame : roll}>{tenzies ? "New Game": "Roll" }</button>
     </main>
   );
