@@ -57,20 +57,6 @@ function App() {
     );
   }
 
-  function newGame() {
-    if (bestScore === 0) {
-      setBestScore(rollsNumber);
-    } else if (rollsNumber < bestScore) {
-      setBestScore(rollsNumber);
-    }
-    setDice(allNewDice());
-    setTenzies(false);
-    setRollsNumber(0);
-  }
-  const elements = dice.map((die) => (
-    <Die key={die.id} die={die} holdDice={() => holdDice(die.id)} />
-  ));
-
   return (
     <main>
       {tenzies && <Confetti />}
